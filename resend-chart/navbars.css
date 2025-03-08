@@ -1,0 +1,63 @@
+/* Navbar styles */
+.navbar {
+    width: 100%;
+    background-color: #666666;
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+}
+
+.navbar-title a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Navbar menu items */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    margin-right: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #f1c40f;
+}
+
+/* For small devices like iPhones and Android phones */
+@media screen and (max-width: 600px) {
+    .navbar ul {
+        display: flex; /* Keep the menu visible */
+        flex-direction: column; /* Stack the items vertically */
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar ul li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+/* For tablets like iPads */
+@media screen and (max-width: 768px) {
+    .navbar ul {
+        flex-direction: row; /* Keep the items horizontal */
+    }
+}

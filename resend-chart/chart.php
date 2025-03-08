@@ -142,36 +142,34 @@
   });
 
   function updateUI(parsed) {
-    // Update the recent task info
+    // Updating the UI elements with fetched data
     document.getElementById('recentCode').textContent = parsed.recentTask.code;
     document.getElementById('recentSubject').textContent = parsed.recentTask.subject;
 
-    // Update upload stats
-    // You can update the labels to make it clear: total uploads vs. today's uploads.
+    // Update uploads
     document.getElementById('totalUploads').textContent = parsed.totalUploads;
     document.getElementById('todayUploads').textContent = parsed.todayUploads;
 
-    // For total subjects, if needed, update it as well.
+    // Update total subjects
     document.getElementById('totalSubjects').textContent = parsed.totalSubjects;
 
-    // Update the top 5 lists
     const top5PersonList = document.getElementById('top5PersonList');
     top5PersonList.innerHTML = '';
     parsed.top5Persons.forEach((p, i) => {
-        const li = document.createElement('li');
-        li.textContent = `${i+1}. ${p.name} (${p.count} งาน)`;
-        top5PersonList.appendChild(li);
+      const li = document.createElement('li');
+      li.textContent = `${i+1}. ${p.name} (${p.count} งาน)`;
+      top5PersonList.appendChild(li);
     });
 
     const top5AgencyList = document.getElementById('top5AgencyList');
     top5AgencyList.innerHTML = '';
     parsed.top5Agencies.forEach((a, i) => {
-        const li = document.createElement('li');
-        li.textContent = `${i+1}. ${a.agency} (${a.count} งาน)`;
-        top5AgencyList.appendChild(li);
+      const li = document.createElement('li');
+      li.textContent = `${i+1}. ${a.agency} (${a.count} งาน)`;
+      top5AgencyList.appendChild(li);
     });
 
-    // Update charts with parsed data
+    // Update charts
     pieChart.data.labels = parsed.subjectDist.labels;
     pieChart.data.datasets[0].data = parsed.subjectDist.values;
     pieChart.update();
@@ -183,8 +181,7 @@
     lineChart.data.labels = parsed.dateDist.labels;
     lineChart.data.datasets[0].data = parsed.dateDist.values;
     lineChart.update();
-}
-
+  }
 
     function initCharts() {
       const chartOptions = {
@@ -324,16 +321,14 @@
       fetch('./utils/fetchTasks.php')
         .then(res => res.json())
         .then(data => {
-          console.log(data);
+        console.log(data)
           if (!data.success) throw new Error('Server returned success=false');
           const tasks = data.tasks || [];
           const parsed = parseTasks(tasks);
-          // Override totalUploads with the full total from the server
-          parsed.totalUploads = data.total;
           updateUI(parsed);
           const now = new Date();
           fetchStatusEl.textContent = 'ดึงข้อมูลล่าสุดเมื่อ: ' + now.toLocaleString('th-TH');
-          updateCalendarWithEvents(parsed);
+          updateCalendarWithEvents(parsed); // Update calendar with the fetched events
         })
         .catch(err => {
           console.error('Fetch error:', err);
@@ -344,35 +339,31 @@
         });
     }
 
-
     function parseTasks(tasks) {
       const personCountMap = {};
       const agencyCountMap = {};
       const subjectCountMap = {};
       const dateCountMap = {};
       const calendarEvents = [];
-
       tasks.forEach(t => {
         const tc = t.task || 'ไม่ระบุ';
         const p = t.person_name || 'ไม่ระบุ';
         const ag = t.responsible_agency || 'ไม่ระบุ';
         const sj = t.subject || 'ไม่ระบุ';
-
-        // Use only the date portion (YYYY-MM-DD) for comparisons
-        const dp = t.date_proposal ? new Date(t.date_proposal).toISOString().split('T')[0] : null;
-        const dl = t.date_received_legal_office ? new Date(t.date_received_legal_office).toISOString().split('T')[0] : null;
-        const dr = t.date_received_responsible_officer ? new Date(t.date_received_responsible_officer).toISOString().split('T')[0] : null;
-        
+        const dp = t.date_proposal ? new Date(t.date_proposal).toISOString() : null;
+        const dl = t.date_received_legal_office ? new Date(t.date_received_legal_office).toISOString() : null;
+        const dr = t.date_received_responsible_officer ? new Date(t.date_received_responsible_officer).toISOString() : null;
+        console.log(p, ag, sj, dp, dl, dr)
         personCountMap[p] = (personCountMap[p] || 0) + 1;
         agencyCountMap[ag] = (agencyCountMap[ag] || 0) + 1;
         subjectCountMap[sj] = (subjectCountMap[sj] || 0) + 1;
-        
-        // Now count using the date portion only
+        dateCountMap[dp] = (dateCountMap[dp] || 0) + 1;
+
+        // Check for each date type and assign a different color for each
         if (dp) {
-          dateCountMap[dp] = (dateCountMap[dp] || 0) + 1;
           calendarEvents.push({
             title: `${tc}`,
-            start: dp,  // if your calendar accepts YYYY-MM-DD
+            start: dp,
             color: 'rgba(54, 162, 235, 0.7)',  // Blue for date_proposal
             extendedProps: { 
               details: `กิจกรรมที่เกี่ยวข้องกับ: ${sj}`, 
@@ -385,9 +376,8 @@
             }
           });
         }
-        
+
         if (dl) {
-          // Optionally count or handle separately if needed
           calendarEvents.push({
             title: `${tc}`,
             start: dl,
@@ -403,7 +393,7 @@
             }
           });
         }
-        
+
         if (dr) {
           calendarEvents.push({
             title: `${tc}`,
@@ -422,15 +412,15 @@
         }
       });
 
-      // Calculate totals and other distributions as before
+      // Return the updated parsed data
       const top5Persons = Object.entries(personCountMap)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,5)
         .map(([name, count]) => ({ name, count }));
 
       const top5Agencies = Object.entries(agencyCountMap)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,5)
         .map(([agency, count]) => ({ agency, count }));
 
       const subjectLabels = Object.keys(subjectCountMap);
@@ -440,9 +430,9 @@
       const personValues = Object.values(personCountMap);
 
       const sortedDates = Object.keys(dateCountMap).sort();
-      const dateValues = sortedDates.map(d => dateCountMap[d]);
+      const dateValues  = sortedDates.map(d => dateCountMap[d]);
 
-      const latest = tasks.slice().sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10))[0] || {};
+      const latest = tasks.slice().sort((a,b) => parseInt(b.id,10) - parseInt(a.id,10))[0] || {};
       const recentTask = {
         code: latest.task_code || '-',
         subject: latest.subject || '-'
@@ -452,17 +442,15 @@
         top5Persons,
         top5Agencies,
         subjectDist: { labels: subjectLabels, values: subjectValues },
-        personDist: { labels: personLabels, values: personValues },
-        dateDist: { labels: sortedDates, values: dateValues },
+        personDist:  { labels: personLabels,  values: personValues },
+        dateDist:    { labels: sortedDates,   values: dateValues },
         recentTask,
         events: calendarEvents, // Include the events with different colors
         totalSubjects: subjectLabels.length,
         totalUploads: tasks.length,
-        // Now todayUploads will work because the keys are in the YYYY-MM-DD format:
         todayUploads: dateCountMap[new Date().toISOString().split('T')[0]] || 0
       };
     }
-
 
   </script>
 </body>

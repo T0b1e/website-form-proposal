@@ -153,11 +153,10 @@
 
     /* On mobile screens, add right margin (or both sides if you prefer) */
     @media (max-width: 767px) {
-      .left-side {
-        width: 100%;            /* Use full width */
-        margin: 0 auto;         /* Center the container */
-        padding: 0 10px;        /* Add horizontal padding for left/right spacing */
-      }
+    .left-side {
+        width: 90%;
+        margin-right: 10px; 
+    }
     }
   
   /* =========================
@@ -288,19 +287,7 @@
   .table-container {
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
-    max-width: 100%; /* Ensure it doesn't overflow its parent */
-    scrollbar-width: thin; /* For Firefox */
-  }
-  
-  /* Add visible scrollbar styling for WebKit browsers */
-  .table-container::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .table-container::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 4px;
+    -webkit-overflow-scrolling: touch;
   }
   
   /* Base Table Styling */
@@ -375,73 +362,44 @@
     table th:nth-child(10),
     table td:nth-child(10) {
         width: 10%;
-        white-space: normal;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
     }
+  
   /* =========================
-   5a. Hiding Specific Columns on Mobile
-   ========================= */
-
-/* Hide columns with .mobile-hide for screens 1024px and below */
-@media (max-width: 1024px) {
-  .mobile-hide {
-    display: none;
-  }
-}
-
-/* For mid-size screens, adjust the table layout */
-@media (min-width: 641px) and (max-width: 1000px) {
-  table {
-    table-layout: fixed;
-    width: 100%;
-    min-width: 750px; /* Ensure minimum content width */
+     5a. Hiding Specific Columns on Mobile
+     ========================= */
+  
+  /*  Approach 1: Hide columns tagged with .mobile-hide */
+  @media (max-width: 640px) {
+    .mobile-hide {
+      display: none;
+    }
   }
   
-  /* Adjust column widths for this range */
-  table th:nth-child(1), table td:nth-child(1) { width: 5%; }
-  table th:nth-child(2), table td:nth-child(2) { width: 10%; }
-  table th:nth-child(3), table td:nth-child(3) { width: 10%; }
-  table th:nth-child(4), table td:nth-child(4) { width: 15%; }
-  table th:nth-child(5), table td:nth-child(5) { width: 10%; }
+  /*  Approach 2: Hide columns 6 & 7 specifically for small screens */
+  @media (max-width: 640px) {
+    table th:nth-child(6),
+    table td:nth-child(6),
+    table th:nth-child(7),
+    table td:nth-child(7)
+    table th:nth-child(8),
+    table td:nth-child(8)  {
+      display: none;
+    }
+  }
   
-  /* Ensure action buttons remain visible */
-  table th:nth-child(11), table td:nth-child(11),
-  table th:nth-child(12), table td:nth-child(12) {
-    width: 5%;
-    position: sticky;
-    right: 0;
-    background-color: white; /* Prevent transparency issues */
-    z-index: 1;
+  /* Override widths for better readability on smaller screens */
+  @media (max-width: 768px) {
+    table {
+      table-layout: auto;
+      min-width: unset;
+    }
+    table th,
+    table td {
+      width: auto !important;
+      font-size: 12px;
+      padding: 6px 8px;
+    }
   }
-}
-
-/* Additionally, hide columns 6, 7, and 8 for screens 1024px and below */
-@media (max-width: 1024px) {
-  table th:nth-child(6),
-  table td:nth-child(6),
-  table th:nth-child(7),
-  table td:nth-child(7),
-  table th:nth-child(8),
-  table td:nth-child(8) {
-    display: none;
-  }
-}
-
-/* Override widths for better readability on smaller screens */
-@media (max-width: 768px) {
-  table {
-    table-layout: auto;
-    min-width: unset;
-  }
-  table th,
-  table td {
-    width: auto !important;
-    font-size: 12px;
-    padding: 6px 8px;
-  }
-}
-
   
   /* =========================
      6. Pagination Section

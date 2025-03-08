@@ -61,7 +61,7 @@ try {
     // Add WHERE clause if searching
     if ($searchCriteria && $searchTerm) {
         switch ($searchCriteria) {
-            case 'task_code':   
+            case 'task_code':
                 $query .= " WHERE t.task_code LIKE :searchTerm";
                 $params[':searchTerm'] = "%$searchTerm%";
                 break;

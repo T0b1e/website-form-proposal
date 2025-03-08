@@ -99,8 +99,8 @@ require_once '../src/models/User.php';
                         <th class="mobile-hide">📅 วันที่รับเรื่องจากผู้รับผิดชอบ</th>
                         <th class="mobile-hide">📝 การสั่งการ</th>
                         <th class="mobile-hide">💬 หมายเหตุ</th>
-                        <th>📋 ข้อมูลเพิ่มเติม</th>
-                        <th>✏️ แก้ไข</th>
+                        <th class="mobile-hide">📋 ข้อมูลเพิ่มเติม</th>
+                        <th class="mobile-hide">✏️ แก้ไข</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
