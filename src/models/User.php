@@ -16,6 +16,10 @@ class User {
     public $created_at;
     public $updated_at;
 
+    // New properties for reset functionality
+    public $reset_token;
+    public $reset_expires;
+
     // Constructor to initialize the database connection
     public function __construct() {
         $database = new Database();
@@ -52,8 +56,6 @@ class User {
 
     // Read user by email
     public function readByEmail($email) {
-        // Remove: $email = urldecode($_POST['email']);
-        // Use the passed-in $email directly
         $query = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -62,7 +64,6 @@ class User {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
-
     // Read user details by ID without password
     public function readById($user_id) {
         $query = "SELECT username, email, address, phone, department, role FROM $this->table WHERE user_id = :user_id";
@@ -96,6 +97,38 @@ class User {
         $stmt->bindParam(':password', $newPassword);
         $stmt->bindParam(':user_id', $this->user_id);
 
+        return $stmt->execute();
+    }
+
+    // Update or set a new reset token and expiration for the user
+    public function updateResetToken($token, $expires) {
+        $query = "UPDATE $this->table 
+                  SET reset_token = :reset_token, reset_expires = :reset_expires 
+                  WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':reset_token', $token);
+        $stmt->bindParam(':reset_expires', $expires);
+        $stmt->bindParam(':user_id', $this->user_id);
+        
+        return $stmt->execute();
+    }
+
+    // Find a user by reset token (for password reset)
+    public function findByResetToken($token) {
+        $query = "SELECT * FROM $this->table WHERE reset_token = :reset_token";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':reset_token', $token);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Clear the reset token and expiration after a successful reset
+    public function clearResetToken() {
+        $query = "UPDATE $this->table 
+                  SET reset_token = NULL, reset_expires = NULL 
+                  WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $this->user_id);
         return $stmt->execute();
     }
 

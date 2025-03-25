@@ -47,20 +47,15 @@
       })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        if (data.success) {
-          // Store user data in localStorage
-          localStorage.setItem('user_id', data.user_id);
-          localStorage.setItem('username', data.username);
-          localStorage.setItem('role', data.role);
-
-          // Redirect on success
-          window.location.href = 'dashboard.php';
-        } else {
-          // Show error in red
-          errorMessage.innerText = data.message || 'Invalid email or password.';
-          errorMessage.style.display = 'block';
-        }
+          console.log(data);
+          if (data.success) {
+              // No need to store data in localStorage if you're using secure cookies.
+              // Redirect on success
+              window.location.href = 'dashboard.php';
+          } else {
+              errorMessage.innerText = data.message || 'Invalid email or password.';
+              errorMessage.style.display = 'block';
+          }
       })
       .catch(error => {
         console.error('Error:', error);

@@ -1,6 +1,8 @@
 <?php
-session_start();
-require_once '../src/models/User.php';
+if (!isset($_COOKIE['user_id'])) {
+    header('Location: /form/public/login.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +21,7 @@ require_once '../src/models/User.php';
     <div class="navbar-title"><a href="dashboard.php">แบบบันทึกเสนองาน</a></div>
     <ul>
       <li><a href="chart.php">แสดงข้อมูล</a></li>
-      <li><a href="form.php">📋 แบบฟอร์ม</a></li>
+      <li><a href="form.php">📋กรอกข้อมูลแบบฟอร์ม</a></li>
       <li class="notification">
         <!-- Notification Icon with Badge -->
         <a href="#" id="notificationIcon">
@@ -36,9 +38,8 @@ require_once '../src/models/User.php';
                 <button class="decline-btn">Decline</button>
               </span>
             </li>
-            <!-- Additional notifications can be added here -->
           </ul>
-        </div>
+        </div> 
       </li>
       <li><a href="logout.php" onclick="logout()">🚪 ออกจากระบบ</a></li>
     </ul>
@@ -94,11 +95,13 @@ require_once '../src/models/User.php';
                         <th>📚 งาน</th>
                         <th>🏢 หน่วยงานเจ้าของเรื่อง</th>
                         <th>👤 ผู้รับผิดชอบ</th>
+                        <!-- 
                         <th class="mobile-hide">📅 วันที่เสนอเรื่อง</th>
                         <th class="mobile-hide">📅 วันที่รับเรื่องจากสำนักงานกฎหมาย</th>
                         <th class="mobile-hide">📅 วันที่รับเรื่องจากผู้รับผิดชอบ</th>
                         <th class="mobile-hide">📝 การสั่งการ</th>
                         <th class="mobile-hide">💬 หมายเหตุ</th>
+                        -->
                         <th>📋 ข้อมูลเพิ่มเติม</th>
                         <th>✏️ แก้ไข</th>
                     </tr>

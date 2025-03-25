@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                console.log("Fetched Data:", data);
+                // console.log("Fetched Data:", data);
                 taskTableBody.innerHTML = '';  // Clear loading message
                 if (data.success) {
                     populateTable(data.tasks);
@@ -201,11 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${task.subject || 'ไม่พบเจอ'}</td>
             <td>${task.responsible_agency || 'ไม่พบเจอ'}</td>
             <td>${task.person_name || 'ไม่พบเจอ'}</td>
-            <td class="mobile-hide">${task.date_proposal || 'ไม่พบเจอ'}</td>
-            <td class="mobile-hide">${task.date_received_legal_office || 'ไม่พบเจอ'}</td>
-            <td class="mobile-hide">${task.date_received_responsible_officer || 'ไม่พบเจอ'}</td>
-            <td class="mobile-hide">${task.instructions || 'ไม่พบเจอ'}</td>
-            <td class="mobile-hide">${task.remarks || 'ไม่พบเจอ'}</td>
             <td>
                 <button class="detail-btn" data-id="${task.id}" title="รายละเอียด">
                     <i class="fas fa-info-circle"></i>
@@ -244,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(`./utils/fetchTaskID.php?id=${taskId}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.success) {
                     if (mode === 'detail') {
                         displayDetailsModal(data.task);

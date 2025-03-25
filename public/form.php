@@ -1,3 +1,10 @@
+<?php
+if (!isset($_COOKIE['user_id'])) {
+    header('Location: /form/public/login.php');
+    exit();
+}
+?>
+
 <!-- form.php -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,8 +14,6 @@
     <title>📝 แบบฟอร์มบันทึก</title>
     <link rel="stylesheet" href="./css/navbars.css">
     <link rel="stylesheet" href="./css/form.css">
-    <style>
-    </style>
 </head>
 <body>
 
