@@ -200,9 +200,10 @@ select {
    5. Table Section
    ========================= */
 
+/* Table Container */
 .table-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Horizontal scroll if necessary */
     -webkit-overflow-scrolling: touch;
 }
 
@@ -210,7 +211,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    min-width: 800px;
+    min-width: 800px; /* Set a min-width for large screens */
 }
 
 table th,
@@ -218,8 +219,9 @@ table td {
     padding: 8px 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    word-wrap: break-word;
+    word-wrap: break-word; /* Allow text to wrap */
     font-size: 13px;
+    white-space: normal; /* Allow wrapping */
 }
 
 table th {
@@ -228,7 +230,7 @@ table th {
 }
 
 table td {
-    white-space: normal;
+    white-space: normal; /* Allow text to wrap */
 }
 
 /* Column Widths */
@@ -280,6 +282,33 @@ table td:nth-child(10) {
 
     table {
         min-width: 600px;
+    }
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+    table {
+        min-width: 600px; /* Allow horizontal scrolling on smaller screens */
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+
+    /* Optional: If you want to make the text a bit more readable on small screens */
+    table th,
+    table td {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    table {
+        min-width: 500px; /* Min-width for very small screens */
     }
 }
 

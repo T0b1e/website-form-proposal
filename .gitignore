@@ -1,3 +1,5 @@
 *.env
 *.jpg
 *.sql
+
+/config

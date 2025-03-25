@@ -15,6 +15,7 @@
 <nav class="navbar">
         <div class="navbar-title"><a href="dashboard.php">แบบบันทึกเสนองาน</a></div>
         <ul>
+            <li><a href="chart.php">แสดงข้อมูล</a></li>
             <li><a href="form.php">📋 แบบฟอร์ม</a></li>
             <li><a href="logout.php" onclick="logout()">🚪 ออกจากระบบ</a></li>
         </ul>

@@ -11,7 +11,13 @@
     box-sizing: border-box; /* Ensure padding doesn't affect the width */
 }
 
+.navbar-title a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
 
+/* Navbar menu items */
 .navbar ul {
     list-style: none;
     display: flex;
@@ -34,19 +40,24 @@
     color: #f1c40f;
 }
 
-.navbar-title a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-}
-
+/* For small devices like iPhones and Android phones */
 @media screen and (max-width: 600px) {
     .navbar ul {
-        display: none;
+        display: flex; /* Keep the menu visible */
+        flex-direction: column; /* Stack the items vertically */
+        width: 100%;
+        text-align: center;
     }
 
-    .navbar .menu-icon {
-        display: block;
-        cursor: pointer;
+    .navbar ul li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+/* For tablets like iPads */
+@media screen and (max-width: 768px) {
+    .navbar ul {
+        flex-direction: row; /* Keep the items horizontal */
     }
 }

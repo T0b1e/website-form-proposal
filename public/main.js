@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Event Listener for Close Buttons
-    document.querySelectorAll('.close-btn').forEach(button => {
+    // Event Listener for Close and Cancel Buttons
+    document.querySelectorAll('.close-modal').forEach(button => {
         button.addEventListener('click', () => {
             const modal = button.closest('.modal');
             if (modal) {
@@ -378,6 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) {
             modal.style.display = 'flex';
             document.body.classList.add('no-scroll'); // Prevent background scroll
+            // Set focus to the first input inside the modal for accessibility
+            const firstInput = modal.querySelector('input, select, textarea, button');
+            if (firstInput) firstInput.focus();
         } else {
             console.error(`Modal with ID "${modalId}" not found.`);
         }

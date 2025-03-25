@@ -1,8 +1,12 @@
 <?php
-/* fetchTaskID.php */
+/**
+ * fetchTaskID.php
+ * Fetches a single task by its ID for editing purposes.
+ */
 
 require_once '../../config/db.php'; // Ensure the path is correct
 
+// Set the content type to JSON
 header('Content-Type: application/json');
 
 // Check if 'id' is provided in GET parameters
@@ -17,7 +21,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $taskId = intval($_GET['id']); // Sanitize input by converting to integer
 
 try {
-    // Instantiate the Database 
+    // Instantiate the Database class and establish the connection
     $database = new Database();
     $pdo = $database->connect();
 

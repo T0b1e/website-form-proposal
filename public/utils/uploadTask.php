@@ -46,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $pdo->prepare("
             INSERT INTO tasks (
-                id,
                 task,
                 task_code,
                 subject_id,
@@ -59,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 processing_duration_days,
                 remarks
             ) VALUES (
-                :id,
                 :task,
                 :task_code,
                 :subject_id,
@@ -75,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
 
         $stmt->execute([
-            ':id' => $taskId,
             ':task' => $title,
             ':task_code' => $taskCode,
             ':subject_id' => $subjectId,

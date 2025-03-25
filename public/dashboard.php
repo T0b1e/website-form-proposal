@@ -18,6 +18,7 @@ require_once '../src/models/User.php';
     <nav class="navbar">
         <div class="navbar-title"><a href="dashboard.php">แบบบันทึกเสนองาน</a></div>
         <ul>
+            <li><a href="chart.php">แสดงข้อมูล</a></li>
             <li><a href="form.php">📋 แบบฟอร์ม</a></li>
             <li><a href="logout.php" onclick="logout()">🚪 ออกจากระบบ</a></li>
         </ul>
@@ -93,7 +94,12 @@ require_once '../src/models/User.php';
     <!-- Detail Modal -->
     <div id="detailModal" class="modal">
         <div class="modal-content">
-            <span id="closeDetailModal" class="close">&times;</span>
+            <span class="close-modal close-btn" aria-label="Close Detail Modal">
+                <!-- SVG Icon for Close Button -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M18.3 5.71a1 1 0 00-1.42 0L12 10.59 7.12 5.7a1 1 0 00-1.41 1.42L10.59 12l-4.88 4.88a1 1 0 101.41 1.42L12 13.41l4.88 4.88a1 1 0 001.42-1.42L13.41 12l4.88-4.88a1 1 0 000-1.41z"/>
+                </svg>
+            </span>
             <div id="modalDetails"></div>
         </div>
     </div>
@@ -101,7 +107,7 @@ require_once '../src/models/User.php';
     <!-- Edit Modal -->
     <div id="editModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
         <div class="modal-content">
-            <span class="close-btn" aria-label="Close Modal">
+            <span class="close-modal close-btn" aria-label="Close Edit Modal">
                 <!-- SVG Icon for Close Button -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M18.3 5.71a1 1 0 00-1.42 0L12 10.59 7.12 5.7a1 1 0 00-1.41 1.42L10.59 12l-4.88 4.88a1 1 0 101.41 1.42L12 13.41l4.88 4.88a1 1 0 001.42-1.42L13.41 12l4.88-4.88a1 1 0 000-1.41z"/>
@@ -179,7 +185,7 @@ require_once '../src/models/User.php';
                 <!-- Form Actions -->
                 <div class="form-actions">
                     <button type="submit" class="submit-button">บันทึก</button>
-                    <button type="button" class="cancel-button">ยกเลิก</button>
+                    <button type="button" class="close-modal cancel-button">ยกเลิก</button>
                 </div>
             </form>
         </div>
@@ -190,8 +196,23 @@ require_once '../src/models/User.php';
         function logout() {
             localStorage.removeItem('user_id');
             localStorage.removeItem('username');
-            window.location.href = 'login.php';
+            window.location.href = '/working-log/public/login.php'; // Absolute path
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+        console.log('Authentication check initiated');
+        const userId = localStorage.getItem('user_id');
+        const username = localStorage.getItem('username');
+        console.log('User ID:', userId, 'Username:', username);
+
+        if (!userId || !username) {
+            console.log('User not authenticated. Redirecting to login.php');
+            window.location.href = 'login.php'; // this is coorect redirect http://localhost/working-log/public/login.php
+        } else {
+            console.log('User authenticated');
+            // You can perform additional actions here if needed
+        }
+    });
     </script>
     <script src="main.js"></script>
 </body>
